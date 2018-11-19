@@ -1,0 +1,39 @@
+<resources>
+
+    <string name="app_name">Fixify</string>
+
+    <string name="get_started">Get Started Today</string>
+
+    <string name="log_in">Log In</string>
+    <string name="title_activity_service_provider_menu">ServiceProviderMenu</string>
+    <string name="title_home">Home Services</string>
+    <string name="title_schedule">Schedule</string>
+    <string name="title_profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- Strings related to login --><![CDATA[
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    >
+]]>
+</resources>
