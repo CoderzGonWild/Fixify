@@ -71,6 +71,9 @@ public class EditDeleteService extends AppCompatActivity  {
 
                 editbutton = findViewById(R.id.edit );
                 delete = findViewById(R.id.delete);
+                save1 = findViewById(R.id.save);
+                newrate1 = findViewById(R.id.newrate);
+
                 delete.setVisibility(View.VISIBLE);
                 editbutton.setVisibility(View.VISIBLE);
                 final Service select = MainActivity.serviceList.get(position);

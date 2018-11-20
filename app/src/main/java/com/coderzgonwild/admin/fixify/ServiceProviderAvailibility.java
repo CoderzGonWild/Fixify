@@ -35,7 +35,7 @@ public class ServiceProviderAvailibility extends AppCompatActivity {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goBackIntent = new Intent(ServiceProviderAvailibility.this,ServiceProviderMenu.class);
+                Intent goBackIntent = new Intent(ServiceProviderAvailibility.this, ServiceProviderMenu.class);
                 startActivity(goBackIntent);
                
             }
@@ -51,6 +51,8 @@ public class ServiceProviderAvailibility extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_availibility);
+        init();
+
         goBack = (Button)findViewById(R.id.goBack);
 
         listView1 = (ListView) findViewById(R.id.avail);

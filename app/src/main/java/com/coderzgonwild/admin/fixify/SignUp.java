@@ -109,10 +109,11 @@ public class SignUp extends AppCompatActivity {
                                 home.putExtra("accountIndex", accountIndex);
 
                                 Intent add = new Intent(SignUp.this, ServiceProviderAdd.class);
-                                add.putExtra("accountIndex", Integer.toString(accountIndex));
+                                add.putExtra("accountIndex", accountIndex);
 
                                 Intent delete = new Intent(SignUp.this, ServiceProviderDelete.class);
-                                delete.putExtra("accountIndex", Integer.toString(accountIndex));
+                                delete.putExtra("accountIndex", accountIndex);
+
                             }
                             startActivity(welcome);
                         }
