@@ -29,7 +29,6 @@
             android:label="@string/title_activity_service_provider_menu" />
         <activity android:name=".ServiceProviderAdd" />
         <activity android:name=".ServiceProviderDelete" />
-        <activity android:name=".LetsGetStarted" />
         <activity android:name=".ServiceProviderProfileEditor" />
         <activity android:name=".ServiceProviderProfile" />
         <activity

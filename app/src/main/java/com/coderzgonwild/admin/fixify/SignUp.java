@@ -105,8 +105,8 @@ public class SignUp extends AppCompatActivity {
 
                             if (accountType.equals("Service Provider")) {
 
-                                Intent home = new Intent(SignUp.this, HomeServicesFragment.class);
-                                home.putExtra("accountIndex", Integer.toString(accountIndex));
+                                Intent home = new Intent(SignUp.this, ServiceProviderMenu.class);
+                                home.putExtra("accountIndex", accountIndex);
 
                                 Intent add = new Intent(SignUp.this, ServiceProviderAdd.class);
                                 add.putExtra("accountIndex", Integer.toString(accountIndex));

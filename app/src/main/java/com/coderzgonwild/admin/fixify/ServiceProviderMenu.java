@@ -22,9 +22,13 @@ public class ServiceProviderMenu extends AppCompatActivity {
 
     private Button viewProfile;
     private Button editAvailibility;
-    private ListView listView2;
-    private ArrayAdapter<String> listAdapter2 ;
+    public Button editService;
 
+    private ListView listView2;
+    private ArrayAdapter<String> listAdapter2;
+
+    private ListView listView;
+    private ServiceArrayAdapter adapter;
 
     //Instance variables
 
@@ -60,18 +64,29 @@ public class ServiceProviderMenu extends AppCompatActivity {
         editAvailibility.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                Intent editavailibilityIntent = new Intent(ServiceProviderMenu.this,ServiceProviderAvailibility.class);
-                startActivity(editavailibilityIntent);
+            Intent editavailibilityIntent = new Intent(ServiceProviderMenu.this,ServiceProviderAvailibility.class);
+            startActivity(editavailibilityIntent);
             }
         });
 
 
+        editService = (Button)findViewById(R.id.addRemoveServices);
+        editService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Intent editServiceIntent = new Intent(ServiceProviderMenu.this, ServiceProviderAdd.class);
+            startActivity(editServiceIntent);
+            }
+        });
 
 
+    }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.notifyDataSetChanged();
+        listAdapter2.notifyDataSetChanged();
     }
 
     @Override
@@ -85,6 +100,16 @@ public class ServiceProviderMenu extends AppCompatActivity {
         listAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,android.R.id.text1,  ServiceProviderAvailibility.servicesprovided );
         listView2.setAdapter(listAdapter2);
 
+        //services stuff
+        Intent myIndexIntent = getIntent();
+        int accountIndex = myIndexIntent.getIntExtra("accountIndex", 0);
+        Account serviceProviderAccount = MainActivity.accountList.get(accountIndex);
+
+        listView  = (ListView) findViewById(R.id.dynamic);
+        adapter = new ServiceArrayAdapter(this, serviceProviderAccount.getServicesProvided());
+        listView.setAdapter(adapter);
     }
 
 }
+
+

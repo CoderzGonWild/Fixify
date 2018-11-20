@@ -42,6 +42,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
+        android:id="@+id/dynamic"
         android:layout_width="match_parent"
         android:layout_height="185dp"
         android:layout_marginTop="8dp"

@@ -21,14 +21,13 @@ public class Welcome extends AppCompatActivity {
         continue_btn = (Button)findViewById(R.id.continue_btn);
 
         //Create intent for admin menu
-        final Intent admin_menu = new Intent(Welcome.this,AdminMenu.class);
-        final Intent service_provider_menu = new Intent(Welcome.this,ServiceProviderMenu.class);
-        final Intent lets_get_started = new Intent(Welcome.this,LetsGetStarted.class);
+        final Intent admin_menu = new Intent(Welcome.this, AdminMenu.class);
+        final Intent service_provider_menu = new Intent(Welcome.this, ServiceProviderMenu.class);
+
 
         Intent myIntent = getIntent(); // gets the previously created intent
         final String username = myIntent.getStringExtra("usernameContent"); // will return "FirstKeyValue"
         final String account = myIntent.getStringExtra("accountType");
-        final boolean newAccount = myIntent.getBooleanExtra("newAccount",true);
 
 
         message.setText("Welcome " + username + " you have a(n) " + account + " account");
@@ -41,16 +40,8 @@ public class Welcome extends AppCompatActivity {
                     startActivity(admin_menu);
                 }
                 else if(account.equals("Service Provider")){
-                    Intent letsGetStarted = new Intent(Welcome.this,LetsGetStarted.class);
-                    if(newAccount){ //Bring user to profile page right away
-                        firstTime = "yes";
-                        startActivity(service_provider_menu);
-                    }
-                    else { //Bring them to menu
-                        firstTime = "no";
-                        letsGetStarted.putExtra("firstTime",firstTime);
-                        startActivity(service_provider_menu);
-                    }
+                    startActivity(service_provider_menu);
+
                 }
             }
         });

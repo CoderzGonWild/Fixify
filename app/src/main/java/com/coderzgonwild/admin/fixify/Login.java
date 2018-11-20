@@ -18,6 +18,7 @@ public class Login extends AppCompatActivity {
     private TextView invalidPassword;
     private TextView credentials;
     private boolean error = false;
+    private int accountIndex;
 
     public void init() {
         //initializing variables to their corresponding widget
@@ -43,9 +44,21 @@ public class Login extends AppCompatActivity {
                     if(usernameContent.equals(account.getUsername()) && passwordContent.equals(account.getPassword())){
                         credentials.setText(" ");
                         accountType = account.getAccountType();
-                        Intent welcome = new Intent(Login.this,Welcome.class);
+                        accountIndex = MainActivity.accountList.indexOf(account);
+                        Intent welcome = new Intent(Login.this, Welcome.class);
                         welcome.putExtra("usernameContent", usernameContent);
                         welcome.putExtra("accountType",accountType);
+
+                        if (accountType.equals("Service Provider")) {
+                            Intent home = new Intent(Login.this, ServiceProviderMenu.class);
+                            home.putExtra("accountIndex", accountIndex);
+
+                            Intent add = new Intent(Login.this, ServiceProviderAdd.class);
+                            add.putExtra("accountIndex", Integer.toString(accountIndex));
+
+                            Intent delete = new Intent(Login.this, ServiceProviderDelete.class);
+                            delete.putExtra("accountIndex", Integer.toString(accountIndex));
+                        }
                         startActivity(welcome);
                     }
                     else {

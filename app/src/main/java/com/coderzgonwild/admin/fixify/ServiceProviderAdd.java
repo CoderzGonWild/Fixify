@@ -6,25 +6,45 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class ServiceProviderAdd extends AppCompatActivity {
+
+    private ListView listView;
+    private ServiceArrayAdapter adapter;
+    Button deleteService;
+    Button back;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_add);
 
+        //getting accountIndex
         Intent myIndexIntent = getIntent();
-        final int accountIndex = Integer.parseInt(myIndexIntent.getStringExtra("accountIndex"));
+        final int accountIndex = myIndexIntent.getIntExtra("accountIndex", 0);
         final Account serviceProviderAccount = MainActivity.accountList.get(accountIndex);
 
-
+        //Creating ListView
         ListView listView = (ListView) findViewById(R.id.list);
-        final ServiceArrayAdapter adapter = new ServiceArrayAdapter(this, MainActivity.serviceList);
+        adapter = new ServiceArrayAdapter(this, MainActivity.serviceList);
         listView.setAdapter(adapter);
 
+        //Detecting Click
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
@@ -47,8 +67,31 @@ public class ServiceProviderAdd extends AppCompatActivity {
                     message.setText("You now provide this service");
                     serviceProviderAccount.servicesProvided.add(select);
                     MainActivity.accountList.set(accountIndex, serviceProviderAccount);
+                    adapter.notifyDataSetChanged();
                 }
             }
-            });
-        };
+
+
+        });
+
+        back = (Button)findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent deleteServiceIntent = new Intent(ServiceProviderAdd.this, ServiceProviderMenu.class);
+                startActivity(deleteServiceIntent);
+            }
+        });
+
+        deleteService = (Button)findViewById(R.id.delete);
+        deleteService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent deleteServiceIntent = new Intent(ServiceProviderAdd.this, ServiceProviderDelete.class);
+                startActivity(deleteServiceIntent);
+            }
+        });
+    }
+
+
 }
