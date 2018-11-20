@@ -11,11 +11,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+
 
 public class ServiceProviderMenu extends AppCompatActivity {
 
     private Button viewProfile;
+    private Button editAvailibility;
+    private ListView listView2;
+    private ArrayAdapter<String> listAdapter2 ;
+
 
     //Instance variables
 
@@ -45,6 +54,24 @@ public class ServiceProviderMenu extends AppCompatActivity {
                 startActivity(viewProfileIntent);
             }
         });
+
+        editAvailibility = (Button)findViewById(R.id.editAvailability);
+
+        editAvailibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent editavailibilityIntent = new Intent(ServiceProviderMenu.this,ServiceProviderAvailibility.class);
+                startActivity(editavailibilityIntent);
+            }
+        });
+
+
+
+
+
+
     }
 
     @Override
@@ -53,6 +80,11 @@ public class ServiceProviderMenu extends AppCompatActivity {
         setContentView(R.layout.activity_service_provider_menu);
 
         init();
+
+        listView2 = (ListView) findViewById(R.id.list3);
+        listAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,android.R.id.text1,  ServiceProviderAvailibility.servicesprovided );
+        listView2.setAdapter(listAdapter2);
+
     }
 
 }

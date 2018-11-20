@@ -68,6 +68,7 @@ public class ServiceProviderProfile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent goBackIntent = new Intent(ServiceProviderProfile.this,ServiceProviderMenu.class);
                 startActivity(goBackIntent);
+
             }
         });
     }
