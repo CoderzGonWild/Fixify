@@ -129,4 +129,16 @@ public class ServiceProviderProfileEditor extends AppCompatActivity{
 
         init();
     }
+    public void SetisCompanyNameFilled(boolean flag){
+        isCompanyNameFilled = flag;
+    }
+    public void SetisAddressFilled(boolean flag){
+        isAddressFilled = flag;
+    }
+    public void SetisPhoneNumberFilled(boolean flag){
+        isPhoneNumberFilled = flag;
+    }
+    public void SetisLicenseFilled(boolean flag) {
+        isLicensedFilled = flag;
+    }
 }
