@@ -27,11 +27,11 @@ public class ServiceProviderProfile extends AppCompatActivity {
         Intent prevIntent = getIntent();
 
         //Obtain previously saved content
-        final String companyNameContent = prevIntent.getStringExtra("currentCompanyName");
-        final String addressContent = prevIntent.getStringExtra("currentAddress");
-        final String phoneNumberContent = prevIntent.getStringExtra("currentPhoneNumber");
-        final String licensedAnswer = prevIntent.getStringExtra("currentLicense");
-        final String aboutContent = prevIntent.getStringExtra("currentAbout");
+        final String companyNameContent = prevIntent.getStringExtra("companyNameContent");
+        final String addressContent = prevIntent.getStringExtra("addressContent");
+        final String phoneNumberContent = prevIntent.getStringExtra("phoneNumberContent");
+        final String licensedAnswer = prevIntent.getStringExtra("licensedContent");
+        final String aboutContent = prevIntent.getStringExtra("aboutContent");
 
         //Associating variables with widgets
         companyName = (TextView) findViewById(R.id.nameOfCompany);
@@ -39,7 +39,6 @@ public class ServiceProviderProfile extends AppCompatActivity {
         phoneNumber = (TextView)findViewById(R.id.profilePhoneNumber);
         licensed = (TextView)findViewById(R.id.licensedProfileResponse);
         about =  (TextView)findViewById(R.id.profileAbout);
-        editProfile = (Button)findViewById(R.id.profilePageEditProfile);
         goBack = (Button)findViewById(R.id.goBack);
 
         //Assign the inherited intent fields to the respective widgets
@@ -49,24 +48,15 @@ public class ServiceProviderProfile extends AppCompatActivity {
         licensed.setText(licensedAnswer);
         about.setText(aboutContent);
 
-        //Click modifiers
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               Intent editProfileIntent = new Intent(ServiceProviderProfile.this,ServiceProviderProfileEditor.class);
-               editProfileIntent.putExtra("currentCompanyName",companyNameContent);
-               editProfileIntent.putExtra("currentAddress",addressContent);
-               editProfileIntent.putExtra("currentPhoneNumber",phoneNumberContent);
-               editProfileIntent.putExtra("currentLicense",licensedAnswer);
-               editProfileIntent.putExtra("currentAbout",aboutContent);
-               startActivity(editProfileIntent);
-            }
-        });
-
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent goBackIntent = new Intent(ServiceProviderProfile.this,ServiceProviderMenu.class);
+                goBackIntent.putExtra("companyNameContent",companyNameContent);
+                goBackIntent.putExtra("addressContent",addressContent);
+                goBackIntent.putExtra("phoneNumberContent",phoneNumberContent);
+                goBackIntent.putExtra("licensedContent",licensedAnswer);
+                goBackIntent.putExtra("aboutContent",aboutContent);
                 startActivity(goBackIntent);
 
             }

@@ -23,12 +23,14 @@ public class ServiceProviderMenu extends AppCompatActivity {
     private Button viewProfile;
     private Button editAvailibility;
     public Button editService;
+    private Button SP_logout;
 
     private ListView listView2;
     private ArrayAdapter<String> listAdapter2;
 
     private ListView listView;
     private ServiceArrayAdapter adapter;
+
 
     //Instance variables
 
@@ -37,11 +39,11 @@ public class ServiceProviderMenu extends AppCompatActivity {
         Intent prevIntent = getIntent();
 
         //Associate variables with widgets
-        final String companyNameContent = prevIntent.getStringExtra("companyNameText");
-        final String addressContent = prevIntent.getStringExtra("addressText");
-        final String phoneNumberContent = prevIntent.getStringExtra("phoneNumberText");
-        final String licensedAnswer = prevIntent.getStringExtra("licensedText");
-        final String aboutContent = prevIntent.getStringExtra("aboutText");
+        final String companyNameContent = prevIntent.getStringExtra("companyNameContent");
+        final String addressContent = prevIntent.getStringExtra("addressContent");
+        final String phoneNumberContent = prevIntent.getStringExtra("phoneNumberContent");
+        final String licensedAnswer = prevIntent.getStringExtra("licensedContent");
+        final String aboutContent = prevIntent.getStringExtra("aboutContent");
 
         viewProfile = (Button)findViewById(R.id.viewProfile);
 
@@ -50,11 +52,11 @@ public class ServiceProviderMenu extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent viewProfileIntent = new Intent(ServiceProviderMenu.this,ServiceProviderProfile.class);
-                viewProfileIntent.putExtra("currentCompanyName",companyNameContent);
-                viewProfileIntent.putExtra("currentAddress",addressContent);
-                viewProfileIntent.putExtra("currentPhoneNumber",phoneNumberContent);
-                viewProfileIntent.putExtra("currentLicense",licensedAnswer);
-                viewProfileIntent.putExtra("currentAbout",aboutContent);
+                viewProfileIntent.putExtra("companyNameContent",companyNameContent);
+                viewProfileIntent.putExtra("addressContent",addressContent);
+                viewProfileIntent.putExtra("phoneNumberContent",phoneNumberContent);
+                viewProfileIntent.putExtra("licensedContent",licensedAnswer);
+                viewProfileIntent.putExtra("aboutContent",aboutContent);
                 startActivity(viewProfileIntent);
             }
         });
@@ -79,6 +81,14 @@ public class ServiceProviderMenu extends AppCompatActivity {
             }
         });
 
+        SP_logout = (Button)findViewById(R.id.SP_logout);
+        SP_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent logoutIntent = new Intent(ServiceProviderMenu.this,MainActivity.class);
+                startActivity(logoutIntent);
+            }
+        });
 
     }
 

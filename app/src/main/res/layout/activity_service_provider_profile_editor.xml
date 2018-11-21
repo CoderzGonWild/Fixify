@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:textSize="18sp" />
 
         <TextView
@@ -128,8 +128,8 @@
             android:ems="10"
             android:hint="No more than 240 characters."
             android:inputType="textMultiLine"
-            android:maxLines="4"
             android:maxLength="240"
+            android:maxLines="4"
             android:singleLine="false"
             android:visibility="visible" />
 

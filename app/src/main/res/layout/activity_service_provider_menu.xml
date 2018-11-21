@@ -102,7 +102,17 @@
             android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:background="@drawable/bluebutton"
-            android:text="EditServices"
+            android:text="Modify Services"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/SP_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bluebutton"
+            android:text="Logout"
             android:textColor="@color/white" />
     </LinearLayout>
 

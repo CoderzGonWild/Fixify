@@ -32,6 +32,8 @@ public class SignUp extends AppCompatActivity {
     private String passwordContent;
     private String accountType;
 
+    private String isNewAccount = "yes";
+
     public void init() {
         //initializing variables to their corresponding widget
         signUp = (Button)findViewById(R.id.process);
@@ -100,8 +102,7 @@ public class SignUp extends AppCompatActivity {
                             int accountIndex = MainActivity.accountList.indexOf(account1);
                             welcome.putExtra("usernameContent", usernameContent);
                             welcome.putExtra("accountType", accountType);
-                            welcome.putExtra("newAccount",newAccount); //Variable for sending user to profile entry immediately
-
+                            welcome.putExtra("isNewAccount",isNewAccount); //Variable for sending user to profile entry immediately
 
                             if (accountType.equals("Service Provider")) {
 

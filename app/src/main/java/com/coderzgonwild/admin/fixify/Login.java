@@ -20,6 +20,8 @@ public class Login extends AppCompatActivity {
     private boolean error = false;
     private int accountIndex;
 
+    private String isNewAccount = "no";
+
     public void init() {
         //initializing variables to their corresponding widget
         login = (Button)findViewById(R.id.login);
@@ -48,6 +50,7 @@ public class Login extends AppCompatActivity {
                         Intent welcome = new Intent(Login.this, Welcome.class);
                         welcome.putExtra("usernameContent", usernameContent);
                         welcome.putExtra("accountType",accountType);
+                        welcome.putExtra("isNewAccount","no");
 
                         if (accountType.equals("Service Provider")) {
                             Intent home = new Intent(Login.this, ServiceProviderMenu.class);
