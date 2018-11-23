@@ -48,6 +48,10 @@ public class Welcome extends AppCompatActivity {
                     }
 
                 }
+                else{
+                    Intent userMenuIntent = new Intent(Welcome.this,UserMenu.class);
+                    startActivity(userMenuIntent);
+                };
             }
         });
 
