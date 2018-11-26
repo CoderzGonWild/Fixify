@@ -47,6 +47,7 @@ public class SignUp extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                newAccount = true;
                 usernameContent = newUsername.getText().toString();
                 passwordContent = newPassword.getText().toString();
 
@@ -87,7 +88,7 @@ public class SignUp extends AppCompatActivity {
 
 
                         for (Account account: MainActivity.accountList) {
-                            if (account.equals(usernameContent)){
+                            if (account.getUsername().equals(usernameContent)){
                                 newAccount = false;
                             }
                         }
@@ -98,6 +99,7 @@ public class SignUp extends AppCompatActivity {
                             Account account1 = new Account(usernameContent, passwordContent, accountType);
                             MainActivity.accountList.add(account1);
                             int accountIndex = MainActivity.accountList.indexOf(account1);
+                            Integer obj = new Integer(accountIndex);
                             welcome.putExtra("usernameContent", usernameContent);
                             welcome.putExtra("accountType", accountType);
                             welcome.putExtra("newAccount",newAccount); //Variable for sending user to profile entry immediately
@@ -106,13 +108,13 @@ public class SignUp extends AppCompatActivity {
                             if (accountType.equals("Service Provider")) {
 
                                 Intent home = new Intent(SignUp.this, ServiceProviderMenu.class);
-                                home.putExtra("accountIndex", accountIndex);
+                                home.putExtra("obj", obj);
 
                                 Intent add = new Intent(SignUp.this, ServiceProviderAdd.class);
-                                add.putExtra("accountIndex", accountIndex);
+                                add.putExtra("obj", obj);
 
                                 Intent delete = new Intent(SignUp.this, ServiceProviderDelete.class);
-                                delete.putExtra("accountIndex", accountIndex);
+                                delete.putExtra("obj", obj);
 
                             }
                             startActivity(welcome);

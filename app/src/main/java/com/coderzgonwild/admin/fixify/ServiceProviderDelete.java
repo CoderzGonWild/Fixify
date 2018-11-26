@@ -38,7 +38,8 @@ public class ServiceProviderDelete extends AppCompatActivity {
 
         //getting accountIndex
         Intent myIndexIntent = getIntent();
-        final int accountIndex = myIndexIntent.getIntExtra("accountIndex", 0);
+        Integer obj = myIndexIntent.getIntExtra("obj", 0);
+        final int accountIndex = obj.intValue();
         final Account serviceProviderAccount = MainActivity.accountList.get(accountIndex);
 
         //Creating ListView

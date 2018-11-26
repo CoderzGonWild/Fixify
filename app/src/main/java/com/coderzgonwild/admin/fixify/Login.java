@@ -45,19 +45,20 @@ public class Login extends AppCompatActivity {
                         credentials.setText(" ");
                         accountType = account.getAccountType();
                         accountIndex = MainActivity.accountList.indexOf(account);
+                        Integer obj = new Integer(accountIndex);
                         Intent welcome = new Intent(Login.this, Welcome.class);
                         welcome.putExtra("usernameContent", usernameContent);
                         welcome.putExtra("accountType",accountType);
 
                         if (accountType.equals("Service Provider")) {
                             Intent home = new Intent(Login.this, ServiceProviderMenu.class);
-                            home.putExtra("accountIndex", accountIndex);
+                            home.putExtra("obj", obj);
 
                             Intent add = new Intent(Login.this, ServiceProviderAdd.class);
-                            add.putExtra("accountIndex", Integer.toString(accountIndex));
+                            add.putExtra("obj", obj);
 
                             Intent delete = new Intent(Login.this, ServiceProviderDelete.class);
-                            delete.putExtra("accountIndex", Integer.toString(accountIndex));
+                            delete.putExtra("obj", obj);
                         }
                         startActivity(welcome);
                     }

@@ -102,7 +102,8 @@ public class ServiceProviderMenu extends AppCompatActivity {
 
         //services stuff
         Intent myIndexIntent = getIntent();
-        int accountIndex = myIndexIntent.getIntExtra("accountIndex", 0);
+        Integer obj = myIndexIntent.getIntExtra("obj", 0);
+        int accountIndex = obj.intValue();
         Account serviceProviderAccount = MainActivity.accountList.get(accountIndex);
 
         listView  = (ListView) findViewById(R.id.dynamic);
