@@ -96,13 +96,13 @@ public class ServiceProviderProfileEditor extends AppCompatActivity{
                     errorMessage.setText("Cannot save profile. Please make sure that your required fields are not empty.");
                 }
                 else{
-                    Intent serviceProviderMenuIntent = new Intent(ServiceProviderProfileEditor.this,ServiceProviderMenu.class);
-                    serviceProviderMenuIntent.putExtra("companyNameText",companyNameContent);
-                    serviceProviderMenuIntent.putExtra("addressText",addressContent);
-                    serviceProviderMenuIntent.putExtra("phoneNumberText",phoneNumberContent);
-                    serviceProviderMenuIntent.putExtra("licensedText",licensedAnswer);
-                    serviceProviderMenuIntent.putExtra("aboutText",aboutContent);
-                    startActivity(serviceProviderMenuIntent);
+                    Intent serviceProviderProfileIntent = new Intent(ServiceProviderProfileEditor.this,ServiceProviderProfile.class);
+                    serviceProviderProfileIntent.putExtra("companyNameContent",companyNameContent);
+                    serviceProviderProfileIntent.putExtra("addressContent",addressContent);
+                    serviceProviderProfileIntent.putExtra("phoneNumberContent",phoneNumberContent);
+                    serviceProviderProfileIntent.putExtra("licensedContent",licensedAnswer);
+                    serviceProviderProfileIntent.putExtra("aboutContent",aboutContent);
+                    startActivity(serviceProviderProfileIntent);
                 }
             }
         });
@@ -128,5 +128,17 @@ public class ServiceProviderProfileEditor extends AppCompatActivity{
         setContentView(R.layout.activity_service_provider_profile_editor);
 
         init();
+    }
+    public void SetisCompanyNameFilled(boolean flag){
+        isCompanyNameFilled = flag;
+    }
+    public void SetisAddressFilled(boolean flag){
+        isAddressFilled = flag;
+    }
+    public void SetisPhoneNumberFilled(boolean flag){
+        isPhoneNumberFilled = flag;
+    }
+    public void SetisLicenseFilled(boolean flag) {
+        isLicensedFilled = flag;
     }
 }

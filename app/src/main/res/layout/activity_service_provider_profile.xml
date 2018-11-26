@@ -15,6 +15,7 @@
             android:id="@+id/nameOfCompany"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="-"
             android:textColor="@color/colorPrimary"
             android:textSize="30dp" />
 
@@ -29,12 +30,14 @@
         <TextView
             android:id="@+id/profileAddress"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="-" />
 
         <TextView
             android:id="@+id/profilePhoneNumber"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="-" />
 
         <TextView
             android:id="@+id/isLicensed"
@@ -48,7 +51,8 @@
         <TextView
             android:id="@+id/licensedProfileResponse"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="-" />
 
         <TextView
             android:id="@+id/about"
@@ -62,7 +66,8 @@
         <TextView
             android:id="@+id/profileAbout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="-" />
 
         <LinearLayout
             android:id="@+id/LinearLayoutButtons"
@@ -72,15 +77,6 @@
             android:layout_marginBottom="0dp"
             android:gravity="bottom|end"
             android:orientation="vertical">
-
-            <Button
-                android:id="@+id/profilePageEditProfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/bluebutton"
-                android:text="Edit Profile"
-                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/goBack"

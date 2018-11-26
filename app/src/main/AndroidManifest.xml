@@ -34,7 +34,10 @@
         <activity
             android:name=".ServiceProviderAvailibility"
             android:label="@string/title_activity_service_provider_availibility"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".LetsGetStarted" />
+        <activity android:name=".UserMenu" />
+        <activity android:name=".SearchService"></activity>
     </application>
 
 </manifest>

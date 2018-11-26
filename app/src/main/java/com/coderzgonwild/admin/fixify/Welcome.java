@@ -14,7 +14,6 @@ public class Welcome extends AppCompatActivity {
     public TextView message;
     public SignUp signUp = new SignUp();
     public Button continue_btn;
-    private String firstTime;
 
     public void message() {
         message = (TextView)findViewById(R.id.message);
@@ -24,10 +23,10 @@ public class Welcome extends AppCompatActivity {
         final Intent admin_menu = new Intent(Welcome.this, AdminMenu.class);
         final Intent service_provider_menu = new Intent(Welcome.this, ServiceProviderMenu.class);
 
-
         Intent myIntent = getIntent(); // gets the previously created intent
         final String username = myIntent.getStringExtra("usernameContent"); // will return "FirstKeyValue"
         final String account = myIntent.getStringExtra("accountType");
+        final String isNewAccount = myIntent.getStringExtra("isNewAccount");
 
 
         message.setText("Welcome " + username + " you have a(n) " + account + " account");
@@ -40,9 +39,19 @@ public class Welcome extends AppCompatActivity {
                     startActivity(admin_menu);
                 }
                 else if(account.equals("Service Provider")){
-                    startActivity(service_provider_menu);
+                    if(isNewAccount.equals("yes")){
+                        Intent LetsGetStarted = new Intent(Welcome.this,LetsGetStarted.class);
+                        startActivity(LetsGetStarted);
+                    }
+                    else {
+                        startActivity(service_provider_menu);
+                    }
 
                 }
+                else{
+                    Intent userMenuIntent = new Intent(Welcome.this,UserMenu.class);
+                    startActivity(userMenuIntent);
+                };
             }
         });
 
