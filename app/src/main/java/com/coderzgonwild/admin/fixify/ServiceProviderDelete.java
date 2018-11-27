@@ -40,7 +40,7 @@ public class ServiceProviderDelete extends AppCompatActivity {
         Intent myIndexIntent = getIntent();
         Integer obj = myIndexIntent.getIntExtra("obj", 0);
         final int accountIndex = obj.intValue();
-        final Account serviceProviderAccount = MainActivity.accountList.get(accountIndex);
+        final ServiceProvider serviceProviderAccount = MainActivity.ServiceProviderList.get(accountIndex);
 
         //Creating ListView
         ListView listView = (ListView) findViewById(R.id.list);
@@ -60,8 +60,8 @@ public class ServiceProviderDelete extends AppCompatActivity {
 
                 message.setTextColor(Color.parseColor("#008000"));
                 message.setText("You no longer provide this service");
-                serviceProviderAccount.servicesProvided.remove(select);
-                MainActivity.accountList.set(accountIndex, serviceProviderAccount);
+                serviceProviderAccount.deleteService(select);
+                MainActivity.ServiceProviderList.set(accountIndex, serviceProviderAccount);
                 adapter.notifyDataSetChanged();
 
             }

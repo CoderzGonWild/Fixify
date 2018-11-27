@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private Button login;
     private Button getStarted;
     public static ArrayList<Account> accountList = new ArrayList<Account>();
+    public static ArrayList<ServiceProvider> ServiceProviderList = new ArrayList<ServiceProvider>();
     private Account admin = new Account("admin", "admin", "administrator");
 
     public static ArrayList<Service> serviceList = new ArrayList<>();

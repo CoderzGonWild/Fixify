@@ -38,7 +38,7 @@ public class ServiceProviderAdd extends AppCompatActivity {
         Intent myIndexIntent = getIntent();
         Integer obj = myIndexIntent.getIntExtra("obj", 0);
         final int accountIndex = obj.intValue();
-        final Account serviceProviderAccount = MainActivity.accountList.get(accountIndex);
+        final ServiceProvider serviceProviderAccount = MainActivity.ServiceProviderList.get(accountIndex);
 
         //Creating ListView
         ListView listView = (ListView) findViewById(R.id.list);
@@ -55,7 +55,7 @@ public class ServiceProviderAdd extends AppCompatActivity {
                 final Service select = MainActivity.serviceList.get(position);
                 TextView message = (TextView)findViewById(R.id.message);
 
-                for (Service service: serviceProviderAccount.servicesProvided) {
+                for (Service service: serviceProviderAccount.getServicesProvided()) {
                     if (select.equals(service)) {
                         message.setTextColor(Color.parseColor("#ff0000"));
                         message.setText("You already provide this service");
@@ -66,8 +66,8 @@ public class ServiceProviderAdd extends AppCompatActivity {
                 if (already == false) {
                     message.setTextColor(Color.parseColor("#008000"));
                     message.setText("You now provide this service");
-                    serviceProviderAccount.servicesProvided.add(select);
-                    MainActivity.accountList.set(accountIndex, serviceProviderAccount);
+                    serviceProviderAccount.addService(select);
+                    MainActivity.ServiceProviderList.set(accountIndex, serviceProviderAccount);
                     adapter.notifyDataSetChanged();
                 }
             }

@@ -100,6 +100,13 @@ public class ServiceProviderMenu extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+        listAdapter2.notifyDataSetChanged();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_menu);
@@ -114,7 +121,7 @@ public class ServiceProviderMenu extends AppCompatActivity {
         Intent myIndexIntent = getIntent();
         Integer obj = myIndexIntent.getIntExtra("obj", 0);
         int accountIndex = obj.intValue();
-        Account serviceProviderAccount = MainActivity.accountList.get(accountIndex);
+        ServiceProvider serviceProviderAccount = MainActivity.ServiceProviderList.get(accountIndex);
 
         listView  = (ListView) findViewById(R.id.dynamic);
         adapter = new ServiceArrayAdapter(this, serviceProviderAccount.getServicesProvided());

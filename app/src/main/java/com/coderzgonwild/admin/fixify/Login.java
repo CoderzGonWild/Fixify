@@ -40,35 +40,53 @@ public class Login extends AppCompatActivity {
 
 
                 //If correct credentials are entered, then open welcome page
-
+                //users and admin
                 for (Account account: MainActivity.accountList) {
                     //Successful login if condition
                     if(usernameContent.equals(account.getUsername()) && passwordContent.equals(account.getPassword())){
                         credentials.setText(" ");
                         accountType = account.getAccountType();
-                        accountIndex = MainActivity.accountList.indexOf(account);
+//                        accountIndex = MainActivity.accountList.indexOf(account);
+//                        Integer obj = new Integer(accountIndex);
+                        Intent welcome = new Intent(Login.this, Welcome.class);
+                        welcome.putExtra("usernameContent", usernameContent);
+                        welcome.putExtra("accountType",accountType);
+                        welcome.putExtra("isNewAccount","no");
+                        startActivity(welcome);
+                    }
+                    else {
+                        credentials.setText("Invalid username/password combo");
+                        //break;
+                    }
+                }
+
+
+                //service providers
+                for (ServiceProvider serviceProviderAccount: MainActivity.ServiceProviderList) {
+                    //Successful login if condition
+                    if(usernameContent.equals(serviceProviderAccount.getUsername()) && passwordContent.equals(serviceProviderAccount.getPassword())){
+                        credentials.setText(" ");
+                        accountType = serviceProviderAccount.getAccountType();
+                        accountIndex = MainActivity.accountList.indexOf(serviceProviderAccount);
                         Integer obj = new Integer(accountIndex);
                         Intent welcome = new Intent(Login.this, Welcome.class);
                         welcome.putExtra("usernameContent", usernameContent);
                         welcome.putExtra("accountType",accountType);
                         welcome.putExtra("isNewAccount","no");
 
-                        if (accountType.equals("Service Provider")) {
-                            Intent home = new Intent(Login.this, ServiceProviderMenu.class);
-                            home.putExtra("obj", obj);
+                        Intent home = new Intent(Login.this, ServiceProviderMenu.class);
+                        home.putExtra("obj", obj);
 
-                            Intent add = new Intent(Login.this, ServiceProviderAdd.class);
-                            add.putExtra("obj", obj);
+                        Intent add = new Intent(Login.this, ServiceProviderAdd.class);
+                        add.putExtra("obj", obj);
 
-                            Intent delete = new Intent(Login.this, ServiceProviderDelete.class);
-                            delete.putExtra("obj", obj);
-                        }
+                        Intent delete = new Intent(Login.this, ServiceProviderDelete.class);
+                        delete.putExtra("obj", obj);
+
                         startActivity(welcome);
                     }
                     else {
                         credentials.setText("Invalid username/password combo");
-                        //break;
-
                     }
                 }
             }

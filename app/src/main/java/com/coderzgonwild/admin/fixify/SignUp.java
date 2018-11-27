@@ -27,6 +27,7 @@ public class SignUp extends AppCompatActivity {
     private RadioButton selectedRadioButton;
     private boolean validUsername = false;
     private boolean validPassword = false;
+    private boolean selectedType = false;
     private boolean newAccount = true;
     private String usernameContent;
     private String passwordContent;
@@ -83,19 +84,26 @@ public class SignUp extends AppCompatActivity {
                     // get selected radio button from radioGroup
                     int selectedOption = radioGroup.getCheckedRadioButtonId();
                     // find the radiobutton by returned id
-                    selectedRadioButton = (RadioButton)findViewById(selectedOption);
+                    selectedRadioButton = (RadioButton) findViewById(selectedOption);
                     accountType = selectedRadioButton.getText().toString();
-                    if (validUsername == true && validPassword == true) {
+                    selectedType = true;
+                }
 
+                if (validUsername == true && validPassword == true && selectedType == true) {
 
-
-                        for (Account account: MainActivity.accountList) {
-                            if (account.getUsername().equals(usernameContent)){
-                                newAccount = false;
-                            }
+                    for (Account account : MainActivity.accountList) {
+                        if (account.getUsername().equals(usernameContent)) {
+                            newAccount = false;
                         }
+                    }
+                    for (ServiceProvider serviceProviderAccount : MainActivity.ServiceProviderList) {
+                        if (serviceProviderAccount.getUsername().equals(usernameContent)) {
+                            newAccount = false;
+                        }
+                    }
 
-                        if (newAccount == true) {
+                    if (newAccount == true) {
+                        if (accountType.equals("User")) {
                             credentials.setText(" ");
                             Intent welcome = new Intent(SignUp.this, Welcome.class);
                             Account account1 = new Account(usernameContent, passwordContent, accountType);
@@ -104,26 +112,34 @@ public class SignUp extends AppCompatActivity {
                             Integer obj = new Integer(accountIndex);
                             welcome.putExtra("usernameContent", usernameContent);
                             welcome.putExtra("accountType", accountType);
-                            welcome.putExtra("isNewAccount",isNewAccount); //Variable for sending user to profile entry immediately
-
-                            if (accountType.equals("Service Provider")) {
-
-                                Intent home = new Intent(SignUp.this, ServiceProviderMenu.class);
-                                home.putExtra("obj", obj);
-
-                                Intent add = new Intent(SignUp.this, ServiceProviderAdd.class);
-                                add.putExtra("obj", obj);
-
-                                Intent delete = new Intent(SignUp.this, ServiceProviderDelete.class);
-                                delete.putExtra("obj", obj);
-
-                            }
+                            welcome.putExtra("isNewAccount", isNewAccount); //Variable for sending user to profile entry immediately
                             startActivity(welcome);
                         }
-                        else {
-                            credentials.setText("Username has already been taken");
 
+                        if (accountType.equals("Service Provider")) {
+                            credentials.setText(" ");
+                            Intent welcome = new Intent(SignUp.this, Welcome.class);
+                            ServiceProvider serviceProviderAccount = new ServiceProvider(usernameContent, passwordContent, accountType);
+                            MainActivity.ServiceProviderList.add(serviceProviderAccount);
+                            int accountIndex = MainActivity.accountList.indexOf(serviceProviderAccount);
+                            Integer obj = new Integer(accountIndex);
+                            welcome.putExtra("usernameContent", usernameContent);
+                            welcome.putExtra("accountType", accountType);
+                            welcome.putExtra("isNewAccount", isNewAccount); //Variable for sending user to profile entry immediately
+                            startActivity(welcome);
+                            Intent home = new Intent(SignUp.this, ServiceProviderMenu.class);
+                            home.putExtra("obj", obj);
+
+                            Intent add = new Intent(SignUp.this, ServiceProviderAdd.class);
+                            add.putExtra("obj", obj);
+
+                            Intent delete = new Intent(SignUp.this, ServiceProviderDelete.class);
+                            delete.putExtra("obj", obj);
+                            startActivity(welcome);
                         }
+                    }
+                    else {
+                        credentials.setText("Username has already been taken");
                     }
                 }
             }
