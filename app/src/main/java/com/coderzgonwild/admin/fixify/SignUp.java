@@ -1,5 +1,8 @@
 package com.coderzgonwild.admin.fixify;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -11,6 +14,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.io.Serializable;
+import static com.coderzgonwild.admin.fixify.MainActivity.accountList;
+import static com.coderzgonwild.admin.fixify.MainActivity.nextKey;
+import static com.coderzgonwild.admin.fixify.MainActivity.loggedInUser;
 
 
 public class SignUp extends AppCompatActivity {
@@ -33,18 +39,24 @@ public class SignUp extends AppCompatActivity {
     private String passwordContent;
     private String accountType;
 
+
+
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+
+
     private String isNewAccount = "yes";
 
     public void init() {
         //initializing variables to their corresponding widget
-        signUp = (Button)findViewById(R.id.process);
-        newUsername = (EditText)findViewById(R.id.newUsername);
-        invalidUsername = (TextView)findViewById(R.id.badUsername);
-        newPassword = (EditText)findViewById(R.id.newPassword);
-        invalidPassword = (TextView)findViewById(R.id.badPassword);
-        radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
-        invalidRadioGroup = (TextView)findViewById(R.id.invalidRadiogroup);
-        credentials = (TextView)findViewById(R.id.credentials);
+        signUp = (Button) findViewById(R.id.process);
+        newUsername = (EditText) findViewById(R.id.newUsername);
+        invalidUsername = (TextView) findViewById(R.id.badUsername);
+        newPassword = (EditText) findViewById(R.id.newPassword);
+        invalidPassword = (TextView) findViewById(R.id.badPassword);
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        invalidRadioGroup = (TextView) findViewById(R.id.invalidRadiogroup);
+        credentials = (TextView) findViewById(R.id.credentials);
 
         //modifying onClick method
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +81,7 @@ public class SignUp extends AppCompatActivity {
                     validPassword = true;
                 }
                 //Prevent non-admins from registering as admins
-                if(usernameContent.equals("admin") || usernameContent.equals("Admin")){
+                if (usernameContent.equals("admin") || usernameContent.equals("Admin")) {
                     invalidUsername.setText("You cannot register with this username");
                     validUsername = false;
                     validPassword = false;
@@ -77,8 +89,7 @@ public class SignUp extends AppCompatActivity {
 
                 if (radioGroup.getCheckedRadioButtonId() == -1) {
                     invalidRadioGroup.setText("Please select an option");
-                }
-                else {
+                } else {
                     invalidRadioGroup.setText(" ");
                     // one of the radio buttons is checked
                     // get selected radio button from radioGroup
@@ -91,74 +102,39 @@ public class SignUp extends AppCompatActivity {
 
                 if (validUsername == true && validPassword == true && selectedType == true) {
 
-                    for (Account account : MainActivity.accountList) {
-                        if (account.getUsername().equals(usernameContent)) {
-                            newAccount = false;
-                        }
-                    }
-                    for (ServiceProvider serviceProviderAccount : MainActivity.ServiceProviderList) {
-                        if (serviceProviderAccount.getUsername().equals(usernameContent)) {
-                            newAccount = false;
-                        }
-                    }
 
                     if (newAccount == true) {
+                        credentials.setText(" ");
+                        Intent welcome = new Intent(SignUp.this, Welcome.class);
+
+
                         if (accountType.equals("User")) {
-                            credentials.setText(" ");
-                            Intent welcome = new Intent(SignUp.this, Welcome.class);
+
                             Account account1 = new Account(usernameContent, passwordContent, accountType);
-                            MainActivity.accountList.add(account1);
-                            int accountIndex = MainActivity.accountList.indexOf(account1);
-                            Integer obj = new Integer(accountIndex);
-                            welcome.putExtra("usernameContent", usernameContent);
-                            welcome.putExtra("accountType", accountType);
-                            welcome.putExtra("isNewAccount", isNewAccount); //Variable for sending user to profile entry immediately
-                            startActivity(welcome);
+                            accountList.put(nextKey, account1);
+                            editor.putInt(loggedInUser, nextKey).apply();
+
+                        } else {
+
+                            ServiceProvider serviceProvider1 = new ServiceProvider(usernameContent, passwordContent, accountType);
+
+                            accountList.put(nextKey, serviceProvider1);
+                            editor.putInt(loggedInUser, nextKey).apply();
+                            welcome.putExtra("newUser", true);
                         }
 
-                        if (accountType.equals("Service Provider")) {
-                            credentials.setText(" ");
-                            Intent welcome = new Intent(SignUp.this, Welcome.class);
-                            ServiceProvider serviceProviderAccount = new ServiceProvider(usernameContent, passwordContent, accountType);
-                            MainActivity.ServiceProviderList.add(serviceProviderAccount);
-                            int accountIndex = MainActivity.accountList.indexOf(serviceProviderAccount);
-                            Integer obj = new Integer(accountIndex);
-                            welcome.putExtra("usernameContent", usernameContent);
-                            welcome.putExtra("accountType", accountType);
-                            welcome.putExtra("isNewAccount", isNewAccount); //Variable for sending user to profile entry immediately
-                            startActivity(welcome);
-                            Intent home = new Intent(SignUp.this, ServiceProviderMenu.class);
-                            home.putExtra("obj", obj);
-
-                            Intent add = new Intent(SignUp.this, ServiceProviderAdd.class);
-                            add.putExtra("obj", obj);
-
-                            Intent delete = new Intent(SignUp.this, ServiceProviderDelete.class);
-                            delete.putExtra("obj", obj);
-                            startActivity(welcome);
-                        }
+                        nextKey++;
+                        startActivity(welcome);
                     }
-                    else {
-                        credentials.setText("Username has already been taken");
-                    }
+                } else {
+                    credentials.setText("Username has already been taken");
                 }
             }
+
         });
     }
 
-    //Getter methods
-    public String getNewUsername(){
-        return newUsername.getText().toString();
-    }
 
-    //Setter methods
-    public void setNewUsername(String newNewUsername){ newUsername.setText(newNewUsername); }
-    public void setNewPassword(String newNewPassword){ newPassword.setText(newNewPassword); }
-
-    public void setUsernameContent(String newUsernameContent){usernameContent = newUsernameContent; }
-    public void setPasswordContent(String newPasswordContent){usernameContent = newPasswordContent; }
-
-    public void setAccountType(String newAccountType){ accountType = newAccountType;}
 
 
     //onCreate method
@@ -166,6 +142,11 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+
+        preferences = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
+
 
         init();
     }

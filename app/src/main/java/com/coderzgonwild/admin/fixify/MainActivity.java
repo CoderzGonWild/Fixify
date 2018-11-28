@@ -1,5 +1,7 @@
 package com.coderzgonwild.admin.fixify;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.content.Intent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -14,15 +17,27 @@ public class MainActivity extends AppCompatActivity {
 
     private Button login;
     private Button getStarted;
-    public static ArrayList<Account> accountList = new ArrayList<Account>();
-    public static ArrayList<ServiceProvider> ServiceProviderList = new ArrayList<ServiceProvider>();
-    private Account admin = new Account("admin", "admin", "administrator");
+
+
+
+
+
+    public static HashMap<Integer, Account> accountList = new HashMap<>();
+    public static final String loggedInUser = "CurrentLoggedInUserKey";
+    public static int nextKey = 1;
+
 
     public static ArrayList<Service> serviceList = new ArrayList<>();
 
 
+    private Account admin = new Account("admin", "admin", "admin");
+
+
+
+
     public void init() {
-        accountList.add(admin); //Add admin automatically
+        accountList.put(0, admin); //Add admin automatically
+
 
         //Button variables
         login = (Button)findViewById(R.id.login);
@@ -37,26 +52,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
         getStarted.setOnClickListener(new View.OnClickListener(){
-           @Override
-           public void onClick(View v) {
-               Intent getStarted = new Intent(MainActivity.this, SignUp.class );
-               startActivity(getStarted);
-           }
+            @Override
+            public void onClick(View v) {
+                Intent getStarted = new Intent(MainActivity.this, SignUp.class );
+                startActivity(getStarted);
+            }
         });
 
+
     }
 
-    //Brings user back to front page when back button pressed
-    public void onBackPressed(){
-        Intent mainActivity = new Intent(MainActivity.this,MainActivity.class);
-        startActivity(mainActivity);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+
         init();
+
+
     }
 }

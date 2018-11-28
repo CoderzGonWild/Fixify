@@ -1,7 +1,10 @@
 package com.coderzgonwild.admin.fixify;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +20,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 
+import static com.coderzgonwild.admin.fixify.MainActivity.accountList;
+import static com.coderzgonwild.admin.fixify.MainActivity.loggedInUser;
+
 
 public class ServiceProviderMenu extends AppCompatActivity {
 
@@ -31,19 +37,17 @@ public class ServiceProviderMenu extends AppCompatActivity {
     private ListView listView;
     private ServiceArrayAdapter adapter;
 
+    private  int key;
+
+    private SharedPreferences preferences;
+
 
     //Instance variables
 
     public void init(){
-        //Obtain previous intent content
-        Intent prevIntent = getIntent();
 
-        //Associate variables with widgets
-        final String companyNameContent = prevIntent.getStringExtra("companyNameContent");
-        final String addressContent = prevIntent.getStringExtra("addressContent");
-        final String phoneNumberContent = prevIntent.getStringExtra("phoneNumberContent");
-        final String licensedAnswer = prevIntent.getStringExtra("licensedContent");
-        final String aboutContent = prevIntent.getStringExtra("aboutContent");
+
+
 
         viewProfile = (Button)findViewById(R.id.viewProfile);
 
@@ -52,11 +56,6 @@ public class ServiceProviderMenu extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent viewProfileIntent = new Intent(ServiceProviderMenu.this,ServiceProviderProfile.class);
-                viewProfileIntent.putExtra("companyNameContent",companyNameContent);
-                viewProfileIntent.putExtra("addressContent",addressContent);
-                viewProfileIntent.putExtra("phoneNumberContent",phoneNumberContent);
-                viewProfileIntent.putExtra("licensedContent",licensedAnswer);
-                viewProfileIntent.putExtra("aboutContent",aboutContent);
                 startActivity(viewProfileIntent);
             }
         });
@@ -66,8 +65,8 @@ public class ServiceProviderMenu extends AppCompatActivity {
         editAvailibility.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent editavailibilityIntent = new Intent(ServiceProviderMenu.this,ServiceProviderAvailibility.class);
-            startActivity(editavailibilityIntent);
+                Intent editavailibilityIntent = new Intent(ServiceProviderMenu.this,ServiceProviderAvailibility.class);
+                startActivity(editavailibilityIntent);
             }
         });
 
@@ -76,15 +75,20 @@ public class ServiceProviderMenu extends AppCompatActivity {
         editService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent editServiceIntent = new Intent(ServiceProviderMenu.this, ServiceProviderAdd.class);
-            startActivity(editServiceIntent);
+            
+                Intent editServiceIntent = new Intent(ServiceProviderMenu.this, ServiceProviderAdd.class);
+                startActivity(editServiceIntent);
             }
         });
 
+
         SP_logout = (Button)findViewById(R.id.SP_logout);
+
+
         SP_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                preferences.edit().remove(loggedInUser).apply();
                 Intent logoutIntent = new Intent(ServiceProviderMenu.this,MainActivity.class);
                 startActivity(logoutIntent);
             }
@@ -111,22 +115,28 @@ public class ServiceProviderMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_menu);
 
+        preferences  = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE);
+
+        key = preferences.getInt(loggedInUser, -1);
+        ServiceProvider pro = (ServiceProvider) MainActivity.accountList.get(key);
+
+
         init();
 
         listView2 = (ListView) findViewById(R.id.list3);
-        listAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,android.R.id.text1,  ServiceProviderAvailibility.servicesprovided );
+        listAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,android.R.id.text1,  pro.getServicesAvail() );
         listView2.setAdapter(listAdapter2);
 
         //services stuff
-        Intent myIndexIntent = getIntent();
-        Integer obj = myIndexIntent.getIntExtra("obj", 0);
-        int accountIndex = obj.intValue();
-        ServiceProvider serviceProviderAccount = MainActivity.ServiceProviderList.get(accountIndex);
 
         listView  = (ListView) findViewById(R.id.dynamic);
-        adapter = new ServiceArrayAdapter(this, serviceProviderAccount.getServicesProvided());
+        adapter = new ServiceArrayAdapter(this, pro.getServicesProvided());
         listView.setAdapter(adapter);
+
+        listView.deferNotifyDataSetChanged();
+
     }
+
 
 }
 

@@ -30,37 +30,37 @@ public class AddService extends AppCompatActivity {
         addService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if (TextUtils.isEmpty(serviceName.getText().toString()) || TextUtils.isEmpty(hourlyRate.getText().toString())) {
-                invalidEntry.setText("Invalid Service or Hourly rate entered");
-                success.setText("");
-            }
-            else {
-                boolean already = false;
-                for (Service service: MainActivity.serviceList) {
-                    if (serviceName.getText().toString().equals(service.getName())) {
-                        already = true;
-                        break;
-                    }
-                }
-                if (already == true) {
-                    invalidEntry.setText("This service is already offered");
+                if (TextUtils.isEmpty(serviceName.getText().toString()) || TextUtils.isEmpty(hourlyRate.getText().toString())) {
+                    invalidEntry.setText("Invalid Service or Hourly rate entered");
                     success.setText("");
                 }
                 else {
-                    Service newService = new Service((serviceName.getText().toString()), Double.parseDouble(hourlyRate.getText().toString()));
-                    MainActivity.serviceList.add(newService);
-                    success.setText("Successfully added service!");
-                    invalidEntry.setText("");
+                    boolean already = false;
+                    for (Service service: MainActivity.serviceList) {
+                        if (serviceName.getText().toString().equals(service.getName())) {
+                            already = true;
+                            break;
+                        }
+                    }
+                    if (already == true) {
+                        invalidEntry.setText("This service is already offered");
+                        success.setText("");
+                    }
+                    else {
+                        Service newService = new Service((serviceName.getText().toString()), Double.parseDouble(hourlyRate.getText().toString()));
+                        MainActivity.serviceList.add(newService);
+                        success.setText("Successfully added service!");
+                        invalidEntry.setText("");
+                    }
                 }
-            }
             }
         });
 
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-            Intent previous = new Intent(AddService.this, AdminMenu.class);
-            startActivity(previous);
+                Intent previous = new Intent(AddService.this, AdminMenu.class);
+                startActivity(previous);
             }
         });
     }

@@ -2,6 +2,9 @@
 
 package com.coderzgonwild.admin.fixify;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -27,8 +30,13 @@ public class ServiceProviderAvailibility extends AppCompatActivity {
     boolean add = true;
     private ListView listView1;
     private ArrayAdapter<String> listAdapter;
-    public static ArrayList<String> servicesprovided = new ArrayList<String>();
+    public static ArrayList<String> servicesavail = new ArrayList<String>();
     private Button goBack;
+
+
+
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
 
     public void init(){
         goBack = (Button)findViewById(R.id.goback);
@@ -37,7 +45,7 @@ public class ServiceProviderAvailibility extends AppCompatActivity {
             public void onClick(View v) {
                 Intent goBackIntent = new Intent(ServiceProviderAvailibility.this, ServiceProviderMenu.class);
                 startActivity(goBackIntent);
-               
+
             }
         });
 
@@ -51,6 +59,9 @@ public class ServiceProviderAvailibility extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_availibility);
+
+        preferences   = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
         init();
 
         goBack = (Button)findViewById(R.id.goBack);
@@ -113,16 +124,25 @@ public class ServiceProviderAvailibility extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-                for(String s: servicesprovided){
+                int key = preferences.getInt(MainActivity.loggedInUser, -1);
+
+                ServiceProvider pro = (ServiceProvider) MainActivity.accountList.get(key);
+
+
+
+
+                for(String s: pro.getServicesAvail()){
                     if(s.equals(timeList.get(position))){
-                      add = false;
+                        add = false;
 
                     }
-                    }
-                    if(add == true){
+                }
+                if(add == true){
 
-                    servicesprovided.add(timeList.get(position));
-                    }
+                    pro.getServicesAvail().add(timeList.get(position));
+
+
+                }
 
 
 
@@ -131,9 +151,9 @@ public class ServiceProviderAvailibility extends AppCompatActivity {
 
 
 
-       // Intent ser = new Intent(ServiceProviderAvailibility.this,ServiceProviderProfile.class);
+        // Intent ser = new Intent(ServiceProviderAvailibility.this,ServiceProviderProfile.class);
 
-       // ser.putExtra("services user does", servicesprovided);
+        // ser.putExtra("services user does", servicesprovided);
 
 
     }

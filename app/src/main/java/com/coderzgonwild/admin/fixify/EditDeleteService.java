@@ -34,8 +34,8 @@ public class EditDeleteService extends AppCompatActivity  {
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-            Intent previous = new Intent(EditDeleteService.this, AdminMenu.class );
-            startActivity(previous);
+                Intent previous = new Intent(EditDeleteService.this, AdminMenu.class );
+                startActivity(previous);
             }
         });
     }
@@ -53,13 +53,13 @@ public class EditDeleteService extends AppCompatActivity  {
 
 
 
-       // String[] services = new String[MainActivity.serviceList.size()];
-      //  services =  MainActivity.serviceList.toArray(services);
+        // String[] services = new String[MainActivity.serviceList.size()];
+        //  services =  MainActivity.serviceList.toArray(services);
 
         // Get ListView object from xml layout
         ListView listView = (ListView) findViewById(R.id.list);
 
-       final ServiceArrayAdapter adapter = new ServiceArrayAdapter(this, MainActivity.serviceList);
+        final ServiceArrayAdapter adapter = new ServiceArrayAdapter(this, MainActivity.serviceList);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,20 +113,20 @@ public class EditDeleteService extends AppCompatActivity  {
 
                         save1.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
-                              select.setRate(Double.parseDouble(newrate1.getText().toString()));
+                                select.setRate(Double.parseDouble(newrate1.getText().toString()));
                                 Service newservice = new Service(select.getName(),select.getRate());
 
-                                   MainActivity.serviceList.remove(position);
-                                   MainActivity.serviceList.add(newservice);
-                                   adapter.notifyDataSetChanged();
-                                   delete.setVisibility(View.INVISIBLE);
-                                   editbutton.setVisibility(View.INVISIBLE);
-                                   save1.setVisibility(View.INVISIBLE);
-                                   newrate1.setVisibility(View.INVISIBLE);
+                                MainActivity.serviceList.remove(position);
+                                MainActivity.serviceList.add(newservice);
+                                adapter.notifyDataSetChanged();
+                                delete.setVisibility(View.INVISIBLE);
+                                editbutton.setVisibility(View.INVISIBLE);
+                                save1.setVisibility(View.INVISIBLE);
+                                newrate1.setVisibility(View.INVISIBLE);
                             }
                         });
 
-                                              }
+                    }
 
 
 
@@ -138,22 +138,19 @@ public class EditDeleteService extends AppCompatActivity  {
 
 
 
-                        //BACKUP PLAN TO USE OTHER ACTIVITY SERVICE EDITOR
+                    //BACKUP PLAN TO USE OTHER ACTIVITY SERVICE EDITOR
 
 
-                        //Intent launchServiceEditor = new Intent(EditDeleteService.this, ServiceEditor.class);
-                        //launchServiceEditor.putExtra("servicename",serviceName.getText());
-                        //launchServiceEditor.putExtra("servicerate",serviceRate.getText());
-                        // startActivity(launchServiceEditor);
-
-
-
-
-                    });
-                };
+                    //Intent launchServiceEditor = new Intent(EditDeleteService.this, ServiceEditor.class);
+                    //launchServiceEditor.putExtra("servicename",serviceName.getText());
+                    //launchServiceEditor.putExtra("servicerate",serviceRate.getText());
+                    // startActivity(launchServiceEditor);
 
 
 
+
+                });
+            };
 
 
 
@@ -161,6 +158,9 @@ public class EditDeleteService extends AppCompatActivity  {
 
 
 
-            });
-        }
+
+
+
+        });
+    }
 }

@@ -1,6 +1,9 @@
 package com.coderzgonwild.admin.fixify;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,16 +25,16 @@ public class ServiceProviderProfile extends AppCompatActivity {
     private Button editProfile;
     private Button goBack;
 
-    public void init(){
-        //Obtain previous intent
-        Intent prevIntent = getIntent();
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
 
-        //Obtain previously saved content
-        final String companyNameContent = prevIntent.getStringExtra("companyNameContent");
-        final String addressContent = prevIntent.getStringExtra("addressContent");
-        final String phoneNumberContent = prevIntent.getStringExtra("phoneNumberContent");
-        final String licensedAnswer = prevIntent.getStringExtra("licensedContent");
-        final String aboutContent = prevIntent.getStringExtra("aboutContent");
+
+    public void init(){
+
+
+        int key = preferences.getInt(MainActivity.loggedInUser, -1);
+
+        ServiceProvider pro = (ServiceProvider) MainActivity.accountList.get(key);
 
         //Associating variables with widgets
         companyName = (TextView) findViewById(R.id.nameOfCompany);
@@ -42,21 +45,17 @@ public class ServiceProviderProfile extends AppCompatActivity {
         goBack = (Button)findViewById(R.id.goBack);
 
         //Assign the inherited intent fields to the respective widgets
-        companyName.setText(companyNameContent);
-        address.setText(addressContent);
-        phoneNumber.setText(phoneNumberContent);
-        licensed.setText(licensedAnswer);
-        about.setText(aboutContent);
+        companyName.setText(pro.getCompanyNameContent());
+        address.setText(pro.getAddressContent());
+        phoneNumber.setText(pro.getPhoneNumberContent());
+        licensed.setText(pro.getLicensedContent());
+        about.setText(pro.getAboutContent());
 
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent goBackIntent = new Intent(ServiceProviderProfile.this,ServiceProviderMenu.class);
-                goBackIntent.putExtra("companyNameContent",companyNameContent);
-                goBackIntent.putExtra("addressContent",addressContent);
-                goBackIntent.putExtra("phoneNumberContent",phoneNumberContent);
-                goBackIntent.putExtra("licensedContent",licensedAnswer);
-                goBackIntent.putExtra("aboutContent",aboutContent);
+
                 startActivity(goBackIntent);
 
             }
@@ -67,6 +66,9 @@ public class ServiceProviderProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_profile);
+
+        preferences  = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
 
         init();
     }

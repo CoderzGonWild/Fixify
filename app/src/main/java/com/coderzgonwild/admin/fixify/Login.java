@@ -1,12 +1,22 @@
 package com.coderzgonwild.admin.fixify;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+
+import static com.coderzgonwild.admin.fixify.MainActivity.accountList;
+import static com.coderzgonwild.admin.fixify.MainActivity.loggedInUser;
 
 public class Login extends AppCompatActivity {
 
@@ -17,10 +27,12 @@ public class Login extends AppCompatActivity {
     private EditText password;
     private TextView invalidPassword;
     private TextView credentials;
-    private boolean error = false;
-    private int accountIndex;
 
-    private String isNewAccount = "no";
+
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+
+
 
     public void init() {
         //initializing variables to their corresponding widget
@@ -36,22 +48,22 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 String usernameContent = username.getText().toString(); //gets you the contents
                 String passwordContent = password.getText().toString();
-                String accountType;
+
 
 
                 //If correct credentials are entered, then open welcome page
                 //users and admin
-                for (Account account: MainActivity.accountList) {
+
+
+                for (Map.Entry<Integer, Account> entry : accountList.entrySet()) {
+                    int key  = entry.getKey();
+
+                    Account account = accountList.get(key);
                     //Successful login if condition
                     if(usernameContent.equals(account.getUsername()) && passwordContent.equals(account.getPassword())){
-                        credentials.setText(" ");
-                        accountType = account.getAccountType();
-//                        accountIndex = MainActivity.accountList.indexOf(account);
-//                        Integer obj = new Integer(accountIndex);
+
                         Intent welcome = new Intent(Login.this, Welcome.class);
-                        welcome.putExtra("usernameContent", usernameContent);
-                        welcome.putExtra("accountType",accountType);
-                        welcome.putExtra("isNewAccount","no");
+                        editor.putInt(loggedInUser, key).apply();
                         startActivity(welcome);
                     }
                     else {
@@ -61,45 +73,12 @@ public class Login extends AppCompatActivity {
                 }
 
 
-                //service providers
-                for (ServiceProvider serviceProviderAccount: MainActivity.ServiceProviderList) {
-                    //Successful login if condition
-                    if(usernameContent.equals(serviceProviderAccount.getUsername()) && passwordContent.equals(serviceProviderAccount.getPassword())){
-                        credentials.setText(" ");
-                        accountType = serviceProviderAccount.getAccountType();
-                        accountIndex = MainActivity.accountList.indexOf(serviceProviderAccount);
-                        Integer obj = new Integer(accountIndex);
-                        Intent welcome = new Intent(Login.this, Welcome.class);
-                        welcome.putExtra("usernameContent", usernameContent);
-                        welcome.putExtra("accountType",accountType);
-                        welcome.putExtra("isNewAccount","no");
 
-                        Intent home = new Intent(Login.this, ServiceProviderMenu.class);
-                        home.putExtra("obj", obj);
-
-                        Intent add = new Intent(Login.this, ServiceProviderAdd.class);
-                        add.putExtra("obj", obj);
-
-                        Intent delete = new Intent(Login.this, ServiceProviderDelete.class);
-                        delete.putExtra("obj", obj);
-
-                        startActivity(welcome);
-                    }
-                    else {
-                        credentials.setText("Invalid username/password combo");
-                    }
-                }
             }
+
         });
     }
 
-    //Getter methods
-    public String getUsername(){ return this.username.getText().toString(); }
-    public String getPassword() {return this.password.getText().toString(); }
-
-    //Setter methods
-    public void setUsername(String newUsername){ this.username.setText(newUsername); }
-    public void setPassword(String newPassword) {this.password.setText(newPassword); }
 
     //onCreate method
     @Override
@@ -108,7 +87,18 @@ public class Login extends AppCompatActivity {
         setTitle("login");
         setContentView(R.layout.activity_login);
 
+
+        preferences = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
+
+
+
+
+
         init();
+
+
+
     }
 
 

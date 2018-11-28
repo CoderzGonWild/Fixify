@@ -1,6 +1,9 @@
 package com.coderzgonwild.admin.fixify;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +12,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import static com.coderzgonwild.admin.fixify.MainActivity.accountList;
+import static com.coderzgonwild.admin.fixify.MainActivity.nextKey;
+import static com.coderzgonwild.admin.fixify.MainActivity.loggedInUser;
 
 public class ServiceProviderProfileEditor extends AppCompatActivity{
 
@@ -37,6 +44,10 @@ public class ServiceProviderProfileEditor extends AppCompatActivity{
     private String licensedContent;
     private String aboutContent;
 
+
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+
     public void init(){
 
         //Obtain previous intent
@@ -44,14 +55,14 @@ public class ServiceProviderProfileEditor extends AppCompatActivity{
         final String firstTime = prevIntent.getStringExtra("firstTime");
 
         /**if statement to check if it is the user's first time registering. This prevents null pointer exceptions.
-        if(!firstTime.equals("yes")) {
-            //Field entries to String variables
-            companyNameContent = prevIntent.getStringExtra("currentCompanyName");
-            addressContent = prevIntent.getStringExtra("currentAddress");
-            phoneNumberContent = prevIntent.getStringExtra("currentPhoneNumber");
-            licensedContent = prevIntent.getStringExtra("currentLicense");
-            aboutContent = prevIntent.getStringExtra("currentAbout");
-        }
+         if(!firstTime.equals("yes")) {
+         //Field entries to String variables
+         companyNameContent = prevIntent.getStringExtra("currentCompanyName");
+         addressContent = prevIntent.getStringExtra("currentAddress");
+         phoneNumberContent = prevIntent.getStringExtra("currentPhoneNumber");
+         licensedContent = prevIntent.getStringExtra("currentLicense");
+         aboutContent = prevIntent.getStringExtra("currentAbout");
+         }
          **/
 
         //Associate variables to corresponding widgets
@@ -96,13 +107,20 @@ public class ServiceProviderProfileEditor extends AppCompatActivity{
                     errorMessage.setText("Cannot save profile. Please make sure that your required fields are not empty.");
                 }
                 else{
-                    Intent serviceProviderProfileIntent = new Intent(ServiceProviderProfileEditor.this,ServiceProviderProfile.class);
-                    serviceProviderProfileIntent.putExtra("companyNameContent",companyNameContent);
-                    serviceProviderProfileIntent.putExtra("addressContent",addressContent);
-                    serviceProviderProfileIntent.putExtra("phoneNumberContent",phoneNumberContent);
-                    serviceProviderProfileIntent.putExtra("licensedContent",licensedAnswer);
-                    serviceProviderProfileIntent.putExtra("aboutContent",aboutContent);
-                    startActivity(serviceProviderProfileIntent);
+                    int key = preferences.getInt(loggedInUser, -1);
+
+                    ServiceProvider pro = (ServiceProvider) accountList.get(key);
+
+                    pro.setAddressContent(addressContent);
+                    pro.setCompanyNameContent(companyNameContent);
+                    pro.setPhoneNumberContent(phoneNumberContent);
+                    pro.setLicensedContent(licensedContent);
+                    pro.setAboutContent(aboutContent);
+
+                    accountList.put(key, pro);
+
+                    Intent intent = new Intent(ServiceProviderProfileEditor.this, ServiceProviderProfile.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -127,18 +145,10 @@ public class ServiceProviderProfileEditor extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_profile_editor);
 
+        preferences  = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
+
         init();
     }
-    public void SetisCompanyNameFilled(boolean flag){
-        isCompanyNameFilled = flag;
-    }
-    public void SetisAddressFilled(boolean flag){
-        isAddressFilled = flag;
-    }
-    public void SetisPhoneNumberFilled(boolean flag){
-        isPhoneNumberFilled = flag;
-    }
-    public void SetisLicenseFilled(boolean flag) {
-        isLicensedFilled = flag;
-    }
+
 }

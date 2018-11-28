@@ -22,61 +22,61 @@ public class ServiceEditor extends AppCompatActivity {
 
 
         Bundle extra = myIntent2.getExtras();
-      String serviceName = extra.getString("serviceName");
-      String serviceRate = extra.getString("serviceRate");
+        String serviceName = extra.getString("serviceName");
+        String serviceRate = extra.getString("serviceRate");
 
 
-                //Getting TextFields we are about to update
-                //final TextView serName = (TextView) findViewById(R.id.line01);
-                //final EditText hourrate = (EditText) findViewById(R.id.line02);
+        //Getting TextFields we are about to update
+        //final TextView serName = (TextView) findViewById(R.id.line01);
+        //final EditText hourrate = (EditText) findViewById(R.id.line02);
 
 
-                //Updating contents in this screen
-               //serName.setText(servicename);
-              // hourrate.setText(servicerate);
-
-
-
-
-               //edit (Save)
-                Button saveButton = (Button) findViewById(R.id.buttonSave);
-                saveButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                 //      newrate = (EditText)findViewById(hourlyRate);
-
-               //         Intent launchlistr = new Intent(ServiceEditor.this, EditDeleteService.class);
-               //         launchlistr.putExtra("newrate",newrate.getText());
-
-                        //Updating contents in variable
-
-
-
-                    }
-                });
+        //Updating contents in this screen
+        //serName.setText(servicename);
+        // hourrate.setText(servicerate);
 
 
 
 
+        //edit (Save)
+        Button saveButton = (Button) findViewById(R.id.buttonSave);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //      newrate = (EditText)findViewById(hourlyRate);
+
+                //         Intent launchlistr = new Intent(ServiceEditor.this, EditDeleteService.class);
+                //         launchlistr.putExtra("newrate",newrate.getText());
+
+                //Updating contents in variable
 
 
-                //Updating Function of OnClick Button (delete)
-
-
-
-       // Button delete = (Button) findViewById(R.id.delete);
-
-       //delete.setOnItemClickListener(new View.OnItemClickListener() {
-       //     @Override
-       //     public void onItemClick(View view) {
-
-         //               MainActivity.serviceList.remove(position);
-
-
-            //        }
-           //     });
 
             }
-        }
+        });
+
+
+
+
+
+
+        //Updating Function of OnClick Button (delete)
+
+
+
+        // Button delete = (Button) findViewById(R.id.delete);
+
+        //delete.setOnItemClickListener(new View.OnItemClickListener() {
+        //     @Override
+        //     public void onItemClick(View view) {
+
+        //               MainActivity.serviceList.remove(position);
+
+
+        //        }
+        //     });
+
+    }
+}
 

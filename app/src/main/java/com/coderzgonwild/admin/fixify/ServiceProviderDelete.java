@@ -1,7 +1,10 @@
 package com.coderzgonwild.admin.fixify;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,9 +41,11 @@ public class ServiceProviderDelete extends AppCompatActivity {
 
         //getting accountIndex
         Intent myIndexIntent = getIntent();
-        Integer obj = myIndexIntent.getIntExtra("obj", 0);
-        final int accountIndex = obj.intValue();
-        final ServiceProvider serviceProviderAccount = MainActivity.ServiceProviderList.get(accountIndex);
+
+        int accountIndex = accountIndex = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE).getInt(MainActivity.loggedInUser, -1);
+
+        final ServiceProvider serviceProviderAccount = (ServiceProvider) MainActivity.accountList.get(accountIndex);
+
 
         //Creating ListView
         ListView listView = (ListView) findViewById(R.id.list);
@@ -57,11 +62,13 @@ public class ServiceProviderDelete extends AppCompatActivity {
                 final Service select = serviceProviderAccount.getServicesProvided().get(position);
                 TextView message = (TextView) findViewById(R.id.message);
 
+                serviceProviderAccount.getServicesProvided().remove(position);
 
                 message.setTextColor(Color.parseColor("#008000"));
                 message.setText("You no longer provide this service");
-                serviceProviderAccount.deleteService(select);
-                MainActivity.ServiceProviderList.set(accountIndex, serviceProviderAccount);
+
+
+                //    MainActivity.ServiceProviderList.set(accountIndex, serviceProviderAccount);
                 adapter.notifyDataSetChanged();
 
             }

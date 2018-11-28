@@ -1,7 +1,9 @@
 package com.coderzgonwild.admin.fixify;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +12,16 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class ServiceProviderAdd extends AppCompatActivity {
 
     private ListView listView;
     private ServiceArrayAdapter adapter;
     Button deleteService;
     Button back;
+
+    private  int accountIndex;
 
     @Override
     public void onStart() {
@@ -36,9 +42,11 @@ public class ServiceProviderAdd extends AppCompatActivity {
 
         //getting accountIndex
         Intent myIndexIntent = getIntent();
-        Integer obj = myIndexIntent.getIntExtra("obj", 0);
-        final int accountIndex = obj.intValue();
-        final ServiceProvider serviceProviderAccount = MainActivity.ServiceProviderList.get(accountIndex);
+
+
+        accountIndex   = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE).getInt(MainActivity.loggedInUser, -1);
+
+        final ServiceProvider serviceProviderAccount = (ServiceProvider) MainActivity.accountList.get(accountIndex);
 
         //Creating ListView
         ListView listView = (ListView) findViewById(R.id.list);
@@ -66,8 +74,12 @@ public class ServiceProviderAdd extends AppCompatActivity {
                 if (already == false) {
                     message.setTextColor(Color.parseColor("#008000"));
                     message.setText("You now provide this service");
-                    serviceProviderAccount.addService(select);
-                    MainActivity.ServiceProviderList.set(accountIndex, serviceProviderAccount);
+
+                    ArrayList<Service> servicesProvided = serviceProviderAccount.getServicesProvided();
+
+                    servicesProvided.add(select);
+                    serviceProviderAccount.setServicesProvided(servicesProvided);
+                    //   MainActivity.ServiceProviderList.set(accountIndex, serviceProviderAccount);
                     adapter.notifyDataSetChanged();
                 }
             }
