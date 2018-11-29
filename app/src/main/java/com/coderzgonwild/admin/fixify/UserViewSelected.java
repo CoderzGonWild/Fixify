@@ -71,13 +71,19 @@ public class UserViewSelected extends AppCompatActivity {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            if (picked != null && selected != null) {
+                user.addServiceBooked(picked);
+                user.addTime(selected);
 
-            user.addServiceBooked(picked);
-            user.addTime(selected);
-            MainActivity.accountList.put(userKey, user);
+                MainActivity.accountList.put(userKey, user);
 
-            Intent userHome = new Intent(UserViewSelected.this, UserMenu.class);
-            startActivity(userHome);
+                Intent userHome = new Intent(UserViewSelected.this, UserMenu.class);
+                startActivity(userHome);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "Select both a service and time", Toast.LENGTH_LONG).show();
+            }
+
 
             }
         });
