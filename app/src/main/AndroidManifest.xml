@@ -37,7 +37,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".LetsGetStarted" />
         <activity android:name=".UserMenu" />
-        <activity android:name=".SearchService"></activity>
+        <activity android:name=".SearchService" />
+        <activity android:name=".UserViewSelected"></activity>
     </application>
 
 </manifest>

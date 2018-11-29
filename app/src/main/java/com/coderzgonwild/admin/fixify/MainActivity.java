@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static HashMap<Integer, Account> accountList = new HashMap<>();
     public static final String loggedInUser = "CurrentLoggedInUserKey";
+    public static final String selectedProvider = "UserSelectedProvider";
     public static int nextKey = 1;
 
 
@@ -67,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
 
         init();
 
