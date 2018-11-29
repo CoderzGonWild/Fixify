@@ -1,16 +1,22 @@
 package com.coderzgonwild.admin.fixify;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Map;
+
+import static com.coderzgonwild.admin.fixify.MainActivity.accountList;
 import static com.coderzgonwild.admin.fixify.MainActivity.loggedInUser;
 import static com.coderzgonwild.admin.fixify.MainActivity.selectedProvider;
 
@@ -29,7 +35,47 @@ public class UserViewSelected extends AppCompatActivity {
 
 
     public void init() {
+        Button book = (Button)findViewById(R.id.select);
+        Button home = (Button)findViewById(R.id.home);
 
+
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+//                ListView listView = (ListView) findViewById(R.id.dynamic);
+//
+//                final String selected = servicesSearched.get(position);
+//
+//                for (Map.Entry<Integer, Account> entry : accountList.entrySet()) {
+//                    if (selected.equals(entry.getValue().getUsername())) {
+//                        key = entry.getKey();
+//                    }
+//                    editor.putInt(selectedProvider, key).apply();
+//                    Intent providerSelected = new Intent(SearchService.this, UserViewSelected.class);
+//                    startActivity(providerSelected);
+//                }
+//            }
+//        });
+
+        book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Intent userHome = new Intent(UserViewSelected.this, UserMenu.class);
+            startActivity(userHome);
+
+
+
+            }
+        });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Intent userHome = new Intent(UserViewSelected.this, UserMenu.class);
+            startActivity(userHome);
+
+            }
+        });
     }
 
 //    @Override
@@ -59,7 +105,7 @@ public class UserViewSelected extends AppCompatActivity {
         key = preferences.getInt(selectedProvider, -1);
         ServiceProvider provider = (ServiceProvider) MainActivity.accountList.get(key);
 
-        //name.setText("Provider : " + provider.getUsername());
+        name.setText("Provider : " + provider.getUsername());
 
 
 
@@ -67,11 +113,13 @@ public class UserViewSelected extends AppCompatActivity {
             noServices.setVisibility(View.VISIBLE);
         }
         else if (!provider.getServicesProvided().isEmpty()) {
-            listView = (ListView) findViewById(R.id.dynamic);
+            listView = (ListView) findViewById(R.id.services);
             adapter = new ServiceArrayAdapter(this, provider.getServicesProvided());
             listView.setAdapter(adapter);
 
-            listView.deferNotifyDataSetChanged();
+
+
+            noServices.setVisibility(View.INVISIBLE);
         }
 
         //Service Availabilities
@@ -79,11 +127,13 @@ public class UserViewSelected extends AppCompatActivity {
             noAvail.setVisibility(View.VISIBLE);
         }
         else if (!provider.getServicesAvail().isEmpty()) {
-            listView2 = (ListView) findViewById(R.id.dynamic);
-            adapter2 = new ArrayAdapter(this, R.layout.simple_list_item, provider.getServicesAvail());
-            listView2.setAdapter(adapter);
+            listView2 = (ListView) findViewById(R.id.availabilities);
+            adapter2 = new ArrayAdapter(this, android.R.layout.simple_list_item_1, provider.getServicesAvail());
+            if (listView2 != null) {
+                listView2.setAdapter(adapter2);
+            }
 
-            listView2.deferNotifyDataSetChanged();
+            noAvail.setVisibility(View.INVISIBLE);
         }
 
         init();

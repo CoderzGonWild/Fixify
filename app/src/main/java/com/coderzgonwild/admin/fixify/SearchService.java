@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,9 +26,8 @@ import static com.coderzgonwild.admin.fixify.MainActivity.selectedProvider;
 
 public class SearchService extends AppCompatActivity {
 
-    public Button searchBtn;
     public Button backBtn;
-    public EditText searchField;
+    public SearchView searchField;
 
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -39,34 +39,38 @@ public class SearchService extends AppCompatActivity {
     private ArrayList<String> servicesSearched = new ArrayList<>();
 
     public void init(){
-        searchBtn = (Button)findViewById(R.id.searchBtn);
         backBtn = (Button)findViewById(R.id.backBtn);
-        searchField = (EditText)findViewById(R.id.searchField);
+        searchField = (SearchView)findViewById(R.id.searchField);
 
         servicesSearched.clear();
 
 
-        searchBtn.setOnClickListener(new View.OnClickListener() {
+        //Search field functions
+        searchField.setOnQueryTextListener(
+        new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
-                String input = searchField.getText().toString();
+            public boolean onQueryTextSubmit(String query) {
                 Account account;
                 for (Map.Entry<Integer, Account> entry : accountList.entrySet()) {
                     account = entry.getValue();
                     if (account.getAccountType().equals("Service Provider")) {
-                        if (account.getUsername().contains(input)) {
+                        if (account.getUsername().contains(query)) {
                             servicesSearched.add(account.getUsername());
                         }
                     }
                 }
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Apply filtering here (to do later)
+                return false;
             }
         });
 
 
-        listView  = (ListView) findViewById(R.id.dynamic);
-        adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item, servicesSearched);
-        listView.setAdapter(adapter);
-        //adapter.notifyDataSetChanged();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -109,9 +113,11 @@ public class SearchService extends AppCompatActivity {
         preferences = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE);
         editor = preferences.edit();
 
+        listView  = (ListView) findViewById(R.id.dynamic);
+        adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item, servicesSearched);
+        listView.setAdapter(adapter);
+
         init();
-
-
 
     }
 }
