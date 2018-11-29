@@ -6,7 +6,12 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import static com.coderzgonwild.admin.fixify.MainActivity.loggedInUser;
 
@@ -18,6 +23,12 @@ public class UserMenu extends AppCompatActivity {
 
     private SharedPreferences preferences;
     private  int key;
+
+    private ListView listView;
+    private ServiceArrayAdapter adapter;
+
+    private ListView listView2;
+    private ArrayAdapter adapter2;
 
     public void init(){
         //Associate variables to widgets
@@ -40,6 +51,21 @@ public class UserMenu extends AppCompatActivity {
         });
     }
 
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        adapter.notifyDataSetChanged();
+//        adapter2.notifyDataSetChanged();
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        adapter.notifyDataSetChanged();
+//        adapter2.notifyDataSetChanged();
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +73,37 @@ public class UserMenu extends AppCompatActivity {
 
 
         preferences  = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE);
-
         key = preferences.getInt(loggedInUser, -1);
-        Account user = (Account)MainActivity.accountList.get(key);
+        User user = (User)MainActivity.accountList.get(key);
 
+
+        TextView noServices = (TextView)findViewById(R.id.noServices);
+        TextView noAvail = (TextView)findViewById(R.id.noAvail);
+
+        if (user.getServicesBooked().isEmpty()) {
+            noServices.setVisibility(View.VISIBLE);
+        }
+        else if (!user.getServicesBooked().isEmpty()) {
+            listView = (ListView) findViewById(R.id.services);
+            adapter = new ServiceArrayAdapter(this, user.getServicesBooked());
+            listView.setAdapter(adapter);
+
+            noServices.setVisibility(View.INVISIBLE);
+        }
+
+        //Service Availabilities
+        if (user.getBookedTimes().isEmpty()) {
+            noAvail.setVisibility(View.VISIBLE);
+        }
+        else if (!user.getBookedTimes().isEmpty()) {
+            listView2 = (ListView) findViewById(R.id.availabilities);
+            adapter2 = new ArrayAdapter(this, android.R.layout.simple_list_item_1, user.getBookedTimes());
+            if (listView2 != null) {
+                listView2.setAdapter(adapter2);
+            }
+
+            noAvail.setVisibility(View.INVISIBLE);
+        }
 
 
 

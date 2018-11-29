@@ -110,8 +110,8 @@ public class SignUp extends AppCompatActivity {
 
                         if (accountType.equals("User")) {
 
-                            Account account1 = new Account(usernameContent, passwordContent, accountType);
-                            accountList.put(nextKey, account1);
+                            User userAccount = new User(usernameContent, passwordContent, accountType);
+                            accountList.put(nextKey, userAccount);
                             editor.putInt(loggedInUser, nextKey).apply();
 
                         } else {

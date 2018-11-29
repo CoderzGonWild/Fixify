@@ -38,6 +38,9 @@ public class SearchService extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private ArrayList<String> servicesSearched = new ArrayList<>();
 
+    private ListView listView2;
+    private ArrayAdapter adapter2;
+
     public void init(){
         backBtn = (Button)findViewById(R.id.backBtn);
         searchField = (SearchView)findViewById(R.id.searchField);

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -29,7 +30,14 @@ public class UserViewSelected extends AppCompatActivity {
     private ArrayAdapter adapter2;
 
     private SharedPreferences preferences;
-    private int key;
+    private int providerKey;
+    private int userKey;
+
+    private ServiceProvider provider;
+    private User user;
+
+    private String selected;
+    private Service picked;
 
 
 
@@ -38,32 +46,38 @@ public class UserViewSelected extends AppCompatActivity {
         Button book = (Button)findViewById(R.id.select);
         Button home = (Button)findViewById(R.id.home);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+                ListView listView = (ListView) findViewById(R.id.services);
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
-//                ListView listView = (ListView) findViewById(R.id.dynamic);
-//
-//                final String selected = servicesSearched.get(position);
-//
-//                for (Map.Entry<Integer, Account> entry : accountList.entrySet()) {
-//                    if (selected.equals(entry.getValue().getUsername())) {
-//                        key = entry.getKey();
-//                    }
-//                    editor.putInt(selectedProvider, key).apply();
-//                    Intent providerSelected = new Intent(SearchService.this, UserViewSelected.class);
-//                    startActivity(providerSelected);
-//                }
-//            }
-//        });
+                picked = provider.getServicesProvided().get(position);
+
+                Toast.makeText(getApplicationContext(), picked.getName() + "selected", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+                ListView listView2 = (ListView) findViewById(R.id.availabilities);
+
+                selected = provider.getServicesAvail().get(position);
+
+                Toast.makeText(getApplicationContext(), "Selected time", Toast.LENGTH_LONG).show();
+            }
+        });
 
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+            user.addServiceBooked(picked);
+            user.addTime(selected);
+            MainActivity.accountList.put(userKey, user);
+
             Intent userHome = new Intent(UserViewSelected.this, UserMenu.class);
             startActivity(userHome);
-
-
 
             }
         });
@@ -102,11 +116,12 @@ public class UserViewSelected extends AppCompatActivity {
         TextView noAvail = (TextView)findViewById(R.id.noAvail);
 
         preferences  = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE);
-        key = preferences.getInt(selectedProvider, -1);
-        ServiceProvider provider = (ServiceProvider) MainActivity.accountList.get(key);
+        providerKey = preferences.getInt(selectedProvider, -1);
+        userKey = preferences.getInt(loggedInUser, -1);
+        provider = (ServiceProvider) MainActivity.accountList.get(providerKey);
+        user = (User) MainActivity.accountList.get(userKey);
 
         name.setText("Provider : " + provider.getUsername());
-
 
 
         if (provider.getServicesProvided().isEmpty()) {
@@ -116,8 +131,6 @@ public class UserViewSelected extends AppCompatActivity {
             listView = (ListView) findViewById(R.id.services);
             adapter = new ServiceArrayAdapter(this, provider.getServicesProvided());
             listView.setAdapter(adapter);
-
-
 
             noServices.setVisibility(View.INVISIBLE);
         }
