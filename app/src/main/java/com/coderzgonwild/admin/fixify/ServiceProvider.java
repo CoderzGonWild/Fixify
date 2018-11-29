@@ -11,6 +11,9 @@ public class ServiceProvider extends Account {
     private String phoneNumberContent;
     private String licensedContent;
     private String aboutContent;
+    private double rating;
+    private int numberofratings;
+    private int sumofratings;
 
     private ArrayList<Service> servicesProvided;
     private ArrayList<String> servicesAvail;
@@ -19,6 +22,9 @@ public class ServiceProvider extends Account {
         super(username, password, accountType);
         servicesProvided = new ArrayList<>();
         servicesAvail = new ArrayList<>();
+        rating = 0;
+        numberofratings = 0;
+        sumofratings = 0;
     }
 
     public ArrayList<Service> getServicesProvided() {return servicesProvided;}
@@ -71,6 +77,19 @@ public class ServiceProvider extends Account {
 
     public void setCompanyNameContent(String companyNameContent) {
         this.companyNameContent = companyNameContent;
+    }
+    public void setRating (int rate){
+        numberofratings = numberofratings + 1;
+        sumofratings = sumofratings + rate;
+        rating = sumofratings/numberofratings;
+
+    }
+    public double getProviderRating(){return rating;}
+    public String toString(){
+        if(numberofratings == 0){return super.getUsername()+": no ratings yet.";}
+        else{
+            return super.getUsername()+": rated "+getProviderRating()+" stars.";
+        }
     }
 
 }

@@ -74,6 +74,7 @@ public class UserViewSelected extends AppCompatActivity {
             if (picked != null && selected != null) {
                 user.addServiceBooked(picked);
                 user.addTime(selected);
+                user.addProviderBooked(provider);
 
                 MainActivity.accountList.put(userKey, user);
 

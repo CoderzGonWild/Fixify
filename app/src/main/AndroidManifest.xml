@@ -38,7 +38,8 @@
         <activity android:name=".LetsGetStarted" />
         <activity android:name=".UserMenu" />
         <activity android:name=".SearchService" />
-        <activity android:name=".UserViewSelected"></activity>
+        <activity android:name=".UserViewSelected" />
+        <activity android:name=".RatingMenu"></activity>
     </application>
 
 </manifest>

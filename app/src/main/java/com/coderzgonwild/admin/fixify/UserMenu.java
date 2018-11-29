@@ -20,6 +20,7 @@ public class UserMenu extends AppCompatActivity {
     //Instance variables
     public Button searchService;
     public Button user_logout;
+    public Button rateService;
 
     private SharedPreferences preferences;
     private  int key;
@@ -34,6 +35,7 @@ public class UserMenu extends AppCompatActivity {
         //Associate variables to widgets
         searchService = (Button)findViewById(R.id.searchService);
         user_logout = (Button)findViewById(R.id.user_logout);
+        rateService = (Button)findViewById(R.id.rateService);
 
         user_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +49,13 @@ public class UserMenu extends AppCompatActivity {
             public void onClick(View v) {
                 Intent searchServices = new Intent(UserMenu.this, SearchService.class);
                 startActivity(searchServices);
+            }
+        });
+        rateService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent rateService = new Intent(UserMenu.this, RatingMenu.class);
+                startActivity(rateService);
             }
         });
     }

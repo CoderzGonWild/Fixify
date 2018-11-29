@@ -27,4 +27,5 @@ public class Service {
         this.rate = rate;
     }
 
+
 }
