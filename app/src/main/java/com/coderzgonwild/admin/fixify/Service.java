@@ -6,7 +6,7 @@ public class Service {
 
     private String name;
     private Double rate;
-    private int rating;
+    private Double rating;
 
     public Service (String name, Double rate ) {
         this.name = name;
@@ -15,7 +15,7 @@ public class Service {
 
     public String getName() {return name;}
     public Double getRate() {return rate;}
-    public int getRating() {return rating;}
+    public Double getRating() {return rating;}
     public String toString(){
         return name+rate;
     }
