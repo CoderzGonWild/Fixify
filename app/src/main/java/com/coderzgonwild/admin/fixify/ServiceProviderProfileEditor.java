@@ -100,7 +100,7 @@ public class ServiceProviderProfileEditor extends AppCompatActivity{
                 if(selectedLicensedOption != -1){
                     isLicensedFilled = true;
                     selectedLicensedRadioButton = (RadioButton)findViewById(selectedLicensedOption);
-                    licensedAnswer = selectedLicensedRadioButton.getText().toString();
+                    licensedContent = selectedLicensedRadioButton.getText().toString();
                 }
                 canSaveProfile();
                 if(canSaveProfile() == false){

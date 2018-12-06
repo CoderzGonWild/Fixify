@@ -12,6 +12,7 @@ public class ServiceProvider extends Account {
     private String licensedContent;
     private String aboutContent;
     private double rating;
+    private double ratingString;
     private int numberofratings;
     private int sumofratings;
 
@@ -85,6 +86,7 @@ public class ServiceProvider extends Account {
 
     }
     public double getProviderRating(){return rating;}
+
     public String toString(){
         if(numberofratings == 0){return super.getUsername()+": no ratings yet.";}
         else{

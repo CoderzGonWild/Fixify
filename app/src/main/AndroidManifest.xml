@@ -39,7 +39,7 @@
         <activity android:name=".UserMenu" />
         <activity android:name=".SearchService" />
         <activity android:name=".UserViewSelected" />
-        <activity android:name=".RatingMenu"></activity>
+        <activity android:name=".RatingMenu" />
     </application>
 
 </manifest>

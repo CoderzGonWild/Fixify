@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public static HashMap<Integer, Account> accountList = new HashMap<>();
+    public static ArrayList<ServiceProvider> serviceProviderList = new ArrayList<>();
     public static final String loggedInUser = "CurrentLoggedInUserKey";
     public static final String selectedProvider = "UserSelectedProvider";
     public static int nextKey = 1;

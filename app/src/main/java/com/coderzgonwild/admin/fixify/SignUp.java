@@ -17,6 +17,7 @@ import java.io.Serializable;
 import static com.coderzgonwild.admin.fixify.MainActivity.accountList;
 import static com.coderzgonwild.admin.fixify.MainActivity.nextKey;
 import static com.coderzgonwild.admin.fixify.MainActivity.loggedInUser;
+import static com.coderzgonwild.admin.fixify.MainActivity.serviceProviderList;
 
 
 public class SignUp extends AppCompatActivity {
@@ -119,6 +120,7 @@ public class SignUp extends AppCompatActivity {
                             ServiceProvider serviceProvider1 = new ServiceProvider(usernameContent, passwordContent, accountType);
 
                             accountList.put(nextKey, serviceProvider1);
+                            serviceProviderList.add(serviceProvider1);
                             editor.putInt(loggedInUser, nextKey).apply();
                             welcome.putExtra("newUser", true);
                         }
