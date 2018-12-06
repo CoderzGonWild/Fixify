@@ -1,6 +1,7 @@
 package com.coderzgonwild.admin.fixify;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ServiceProvider extends Account {
 
@@ -15,6 +16,7 @@ public class ServiceProvider extends Account {
     private double ratingString;
     private int numberofratings;
     private int sumofratings;
+    private HashMap<String, String> ratingRecord;
 
     private ArrayList<Service> servicesProvided;
     private ArrayList<String> servicesAvail;
@@ -26,6 +28,7 @@ public class ServiceProvider extends Account {
         rating = 0;
         numberofratings = 0;
         sumofratings = 0;
+        ratingRecord = new HashMap<String, String>();
     }
 
     public ArrayList<Service> getServicesProvided() {return servicesProvided;}
@@ -79,18 +82,28 @@ public class ServiceProvider extends Account {
     public void setCompanyNameContent(String companyNameContent) {
         this.companyNameContent = companyNameContent;
     }
+    public void changeRating(int oldRating){
+        sumofratings = sumofratings - oldRating;
+        numberofratings = numberofratings - 1;
+    }
     public void setRating (int rate){
         numberofratings = numberofratings + 1;
         sumofratings = sumofratings + rate;
         rating = sumofratings/numberofratings;
 
     }
+    public void addToRecord(String user, String comment){
+        ratingRecord.put(user, comment);
+    }
+    public boolean checkRecord(String user){
+        return ratingRecord.containsKey(user);
+    }
     public double getProviderRating(){return rating;}
 
     public String toString(){
-        if(numberofratings == 0){return super.getUsername()+": no ratings yet.";}
+        if(numberofratings == 0){return super.getUsername()+"(no ratings yet)";}
         else{
-            return super.getUsername()+": rated "+getProviderRating()+" stars.";
+            return super.getUsername()+"("+getProviderRating()+")";
         }
     }
 

@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import static com.coderzgonwild.admin.fixify.MainActivity.loggedInUser;
 
 public class RatingMenu extends AppCompatActivity {
@@ -25,11 +28,14 @@ public class RatingMenu extends AppCompatActivity {
     private SharedPreferences preferences;
     private  int key;
     private TextView info;
+    private EditText comment;
     private Button submitRating;
+    private HashMap<ServiceProvider, Integer> ratedBy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ratedBy = new HashMap<>();
         preferences  = getSharedPreferences("my_prefs", Activity.MODE_PRIVATE);
         key = preferences.getInt(loggedInUser, -1);
         user1 = (User)MainActivity.accountList.get(key);
@@ -43,22 +49,39 @@ public class RatingMenu extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 provider1 = toberated.get(position);
-                info.setText("Giving a rating for "+provider1);
+                if(provider1.checkRecord(loggedInUser)){
+                    info.setText("You have already rated "+provider1+". Please choose another provider.");
+
+
+                }
+                else{
+                    info.setText("Giving a rating for " + provider1);
+                }
             }
         });
         final RatingBar stars = (RatingBar) findViewById(R.id.ratingBar);
+        comment = (EditText)findViewById(R.id.comment);
+
         submitRating = (Button) findViewById(R.id.submitRating);
         submitRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                provider1.setRating(stars.getNumStars());
-                info.setText("Rated for "+stars.getRating()+" stars!");
+                if(provider1.checkRecord(loggedInUser)){
+                    info.setText("You already rated this provider!");
+                }
+                else{
+                    provider1.addToRecord(loggedInUser, comment.toString());
+                    provider1.setRating((int) stars.getRating());
+                    info.setText("Rated for " + stars.getRating() + " stars!");
+                }
+
+
             };
 
 
 
-    })
-    ;}
+        })
+        ;}
 
     /*public class ViewHolder{
         ImageView thumbnail;
